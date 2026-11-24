@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GET PJ A NEW iOS 🖤</title>
+<style>
+  body{margin:0;font-family:Arial,sans-serif;background:#0a0a0a;color:white;text-align:center}
+  .hero{padding:50px 20px;background:linear-gradient(180deg,#1a1a1a,#000)}
+  .hero h1{font-size:42px;margin:0;line-height:1.1}
+  .hero h1 span{color:#ff3b5c}
+  .hero p{color:#ccc;font-size:16px;max-width:500px;margin:15px auto}
+  .card{background:#151515;border:1px solid #2a2a2a;border-radius:20px;padding:25px;margin:20px;max-width:500px;margin-left:auto;margin-right:auto;text-align:left}
+  .bar{background:#2a2a2a;height:14px;border-radius:99px;overflow:hidden}
+  .fill{background:#ff3b5c;width:0%;height:100%;transition:width 0.5s}
+  .donate{display:block;background:#ff3b5c;color:white;text-align:center;padding:16px;border-radius:14px;font-weight:bold;text-decoration:none;font-size:18px;margin-top:10px}
+  .confirm{display:block;background:#25D366;color:white;text-align:center;padding:16px;border-radius:14px;font-weight:bold;border:none;width:100%;font-size:16px;margin-top:10px;cursor:pointer}
+  .bank{background:#111;padding:15px;border-radius:12px;margin-top:15px;font-size:14px;line-height:1.6}
+  input{width:100%;padding:14px;border-radius:12px;border:1px solid #333;background:#222;color:white;margin:8px 0;box-sizing:border-box;font-size:16px}
+  label{font-size:13px;color:#aaa}
+  .footer{color:#777;font-size:12px;padding:20px}
+  .copy-btn{background:#333;color:white;border:none;padding:8px 14px;border-radius:8px;cursor:pointer;margin-top:5px}
+  .donor{background:#222;padding:12px;border-radius:10px;margin:8px 0;display:flex;justify-content:space-between;align-items:center;font-size:14px}
+  .pending{background:#2a1a00;border:1px solid #ffaa00;padding:12px;border-radius:10px;margin:8px 0;font-size:14px}
+  .approve-btn{background:#25D366;color:white;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:bold;margin-right:5px}
+  .reject-btn{background:#ff3b5c;color:white;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:bold}
+  .secret-dot{color:#0a0a0a;font-size:12px;cursor:pointer;user-select:none;padding:15px;display:block}
+  .reset-btn{background:#ff3b5c;color:white;border:none;padding:10px;border-radius:8px;width:100%;margin-top:10px;cursor:pointer;font-weight:bold}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div style="font-size:50px">📱🖤</div>
+  <h1>GET PJ <br><span>A NEW iOS</span></h1>
+  <p>LET'S HELP PJ GET AN IOS, HE DESERVES A PHONE UPGRADE, LET'S COME TOGETHER TO GET HIM AN IOS🥹🌹, NO AMOUNT IS TOO SMALL</p>
+  <p><b>Goal: ₦650,000</b> • Raised: <b id="raisedText">₦0</b></p>
+  <div style="max-width:500px;margin:auto">
+    <div class="bar"><div class="fill" id="progressBar"></div></div>
+    <p style="font-size:13px" id="progressText">0% funded • Be the first to donate 🖤</p>
+  </div>
+</div>
+
+<div class="card">
+  <h2 style="margin:0">Donate to PJ 🖤</h2>
+  <p style="color:#aaa;font-size:14px">1. Transfer, 2. Type amount below, 3. PJ will approve it</p>
+  
+  <label>Your Name</label>
+  <input id="donorName" placeholder="e.g. Chiamaka">
+
+  <label>How much did you donate? (₦)</label>
+  <input id="donorAmount" placeholder="e.g. 3000 or 500 or 15000" type="number" inputmode="numeric">
+  <p style="color:#777;font-size:12px;margin:0">Type any amount - ₦500, ₦1,500, ₦7,500, anything 🖤</p>
+  
+  <div class="bank">
+    <b>Step 1 - Transfer Directly:</b><br>
+    Bank: <b> 【entity-OPay¦canonical_name=OPay】</b><br>
+    Acct Name: <b>MICHAEL EZENWA</b><br>
+    Acct No: <b>7078239577</b><br>
+    <button class="copy-btn" onclick="navigator.clipboard.writeText('7078239577');alert('Account number copied!')">Copy Account Number</button>
+  </div>
+
+  <button class="confirm" onclick="submitDonation()">I HAVE DONATED ✅ Send For Approval</button>
+  <a class="donate" href="https://wa.me/2347078239577?text=Hi%20I%20donated%20for%20PJ's%20new%20iOS%20🖤%20Here%20is%20my%20receipt" target="_blank" style="background:#222;border:1px solid #333">Send Receipt on WhatsApp</a>
+  <p style="color:#aaa;font-size:12px;text-align:center">Your donation will show after PJ approves it.</p>
+</div>
+
+<div class="card">
+  <h3 style="margin:0">Approved Donors 🖤</h3>
+  <div id="donorList" style="margin-top:12px"><p style="color:#888;font-size:14px">No donations yet. Be the first 🥹</p></div>
+</div>
+
+<div class="card" id="adminCard" style="display:none;border:1px solid #ff3b5c">
+  <h3 style="margin:0;color:#ff3b5c">PJ Admin - Approve Donations 🔐</h3>
+  <p style="color:#aaa;font-size:13px">Check your 【entity-OPay¦canonical_name=OPay】, then Approve or Reject.</p>
+  <div id="pendingList"></div>
+  <button onclick="lockAdmin()" style="background:#222;color:white;border:1px solid #333;padding:10px;border-radius:8px;width:100%;margin-top:10px">Lock Admin</button>
+  <button class="reset-btn" onclick="resetAll()">⚠️ Reset All to ₦0</button>
+</div>
+
+<div class="card">
+  <h3 style="margin:0">Why PJ? 🥹</h3>
+  <p style="color:#ccc;line-height:1.6;font-size:15px">
+    PJ is that person. Always there for everybody, always showing up, always making us laugh. Now it's our turn to show up for him.<br><br>
+    If you can't donate, please <b>share this link</b> — that helps too!
+  </p>
+</div>
+
+<div class="footer">Made with love for PJ 🖤 • #GetPJANewIOS</div>
+<span class="secret-dot" id="secretTrigger" onclick="handleSecretTap()">•</span>
+
+<script>
+const GOAL = 650000;
+const ADMIN_CODE = "7077";
+
+let approved = JSON.parse(localStorage.getItem('pj_approved') || '[]');
+let pending = JSON.parse(localStorage.getItem('pj_pending') || '[]');
+
+let tapCount = 0;
+let tapTimer = null;
+function handleSecretTap(){
+  tapCount++;
+  clearTimeout(tapTimer);
+  tapTimer = setTimeout(()=>{ tapCount = 0; }, 2000);
+  if(tapCount >= 5){
+    tapCount = 0;
+    unlockAdmin();
+  }
+}
+
+function save(){
+  localStorage.setItem('pj_approved', JSON.stringify(approved));
+  localStorage.setItem('pj_pending', JSON.stringify(pending));
+}
+
+function updateDisplay(){
+  let total = approved.reduce((sum,d)=>sum+d.amount,0);
+  let percent = Math.min(100, Math.round(total/GOAL*100));
+  document.getElementById('raisedText').innerText = '₦' + total.toLocaleString();
+  document.getElementById('progressBar').style.width = percent + '%';
+  document.getElementById('progressText').innerText = percent + '% funded • ' + approved.length + ' approved donation(s) 🖤';
+
+  if(approved.length===0){
+    document.getElementById('donorList').innerHTML = '<p style="color:#888;font-size:14px">No donations yet. Be the first 🥹</p>';
+  } else {
+    document.getElementById('donorList').innerHTML = approved.slice().reverse().map(d=>`<div class="donor"><span>🖤 ${d.name}</span><b>₦${d.amount.toLocaleString()}</b></div>`).join('');
+  }
+
+  if(pending.length===0){
+    document.getElementById('pendingList').innerHTML = '<p style="color:#888">No pending donations.</p>';
+  } else {
+    document.getElementById('pendingList').innerHTML = pending.map((d,i)=>`<div class="pending"><b>${d.name}</b> - ₦${d.amount.toLocaleString()}<br><span style="color:#aaa;font-size:12px">${d.date}</span><br><br><button class="approve-btn" onclick="approveDonation(${i})">✅ Approve</button><button class="reject-btn" onclick="rejectDonation(${i})">❌ Reject</button></div>`).join('');
+  }
+}
+
+function submitDonation(){
+  let name = document.getElementById('donorName').value.trim() || 'Anonymous';
+  let amount = parseInt(document.getElementById('donorAmount').value);
+  if(!amount || amount <= 0){ alert('Please enter the amount you donated'); return; }
+  pending.push({name:name, amount:amount, date: new Date().toLocaleString()});
+  save(); updateDisplay();
+  alert('Sent for approval 🖤 PJ will check his OPay and approve it. Please send receipt on WhatsApp too!');
+  document.getElementById('donorName').value = '';
+  document.getElementById('donorAmount').value = '';
+}
+
+function unlockAdmin(){
+  let code = prompt('Enter PJ Admin Code:');
+  if(code === ADMIN_CODE){
+    document.getElementById('adminCard').style.display = 'block';
+    document.getElementById('adminCard').scrollIntoView({behavior:'smooth'});
+    updateDisplay();
+  } else if(code !== null){
+    alert('Wrong code!');
+  }
+}
+function lockAdmin(){ document.getElementById('adminCard').style.display = 'none'; }
+
+function approveDonation(i){
+  approved.push(pending[i]);
+  pending.splice(i,1);
+  save(); updateDisplay();
+  alert('Approved! Total updated 🖤');
+}
+function rejectDonation(i){
+  if(confirm('Reject this donation? It will not count.')){
+    pending.splice(i,1);
+    save(); updateDisplay();
+  }
+}
+
+function resetAll(){
+  if(confirm('Are you sure? This will erase ALL donations and go back to ₦0')){
+    approved = [];
+    pending = [];
+    localStorage.removeItem('pj_approved');
+    localStorage.removeItem('pj_pending');
+    updateDisplay();
+    alert('Reset done! Back to ₦0 🖤');
+  }
+}
+updateDisplay();
+</script>
+
+</body>
+</html>
